@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
+
+.text-box {
+    margin: 100px 20px;
+    padding: 20px;
+    border-radius: 1rem;
+    background: darkslategrey;
+    color: white;
+    text-align: center;
+}
+.button {
+    width: 225px;
+}
+
