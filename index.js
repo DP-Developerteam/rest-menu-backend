@@ -24,7 +24,6 @@ app.use(cors());
 
 // Serve public files. styles.css & favicon.ico
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/favicon.ico', express.static('public/favicon.ico'));
 
 // Routes
 app.use('/users', userRoutes);
