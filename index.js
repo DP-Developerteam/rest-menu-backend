@@ -35,19 +35,29 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Database Connection and Server Start
-(async () => {
-    try {
-        await connect(); // Ensure DB connection happens first
-        const port = process.env.PORT || 4000;
-        app.listen(port, () => {
-            console.log(`Server running on port ${port}`);
-        });
-    } catch (err) {
-        console.error('Failed to connect to the database', err);
-        process.exit(1); // Exit with failure
-    }
-})();
+// // Database Connection and Server Start
+// (async () => {
+//     try {
+//         await connect(); // Ensure DB connection happens first
+//         const port = process.env.PORT || 4000;
+//         app.listen(port, () => {
+//             console.log(`Server running on port ${port}`);
+//         });
+//     } catch (err) {
+//         console.error('Failed to connect to the database', err);
+//         process.exit(1); // Exit with failure
+//     }
+// })();
+
+// Connect to the database and set up routes
+const init = async () => {
+    await connect(); // Ensure DB connection happens first
+};
+// Set up your express app as a serverless function
+module.exports = async (req, res) => {
+    await init(); // Connect to DB for each request
+    app(req, res); // Pass request and response to Express app
+};
 
 // 404 Handler for undefined routes
 app.use((req, res, next) => {
