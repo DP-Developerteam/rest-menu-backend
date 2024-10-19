@@ -12,7 +12,6 @@ const { connect } = require('./api/utils/database/connect.js');
 
 // Express APIs
 const userRoutes = require('./api/routes/user.routes.js');
-const messageRoutes = require('./api/routes/message.routes.js');
 const productRoutes = require('./api/routes/product.routes.js');
 
 // Initialize Express app
@@ -28,7 +27,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.use('/users', userRoutes);
-app.use('/messages', messageRoutes);
 app.use('/products', productRoutes);
 
 // Serve HTML file

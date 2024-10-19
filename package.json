@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "loadUsers": "node ./api/seeds/seedUsers.js",
+    "loadProducts": "node ./api/seeds/seedProducts.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

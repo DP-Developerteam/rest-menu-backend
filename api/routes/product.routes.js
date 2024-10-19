@@ -11,9 +11,8 @@ const productSchema = require(`../models/product.model`);
 // Route to get all products, requires authorization
 router.route('/').get(authorize, async (req, res, next) => {
     try {
-        // Fetch all products from the database, and populate the 'client' field with user data
-        const products = await productSchema.find().populate('client');
-
+        // Fetch all products from the database
+        const products = await productSchema.find();
         // Return the fetched products as JSON
         res.status(200).json(products);
     } catch (error) {
@@ -22,35 +21,27 @@ router.route('/').get(authorize, async (req, res, next) => {
     }
 });
 
-// Route to get products filtered by client name
-router.route('/product/:clientName').get(authorize, async (req, res, next) => {
+// Route to get products filtered by product name
+router.route('/product/:name').get(async (req, res, next) => {
     try {
-        const clientName = req.params.clientName;
+        const productName = req.params.name;
 
-        // Aggregation pipeline to match products by client name
-        const productsByClient = await productSchema.aggregate([
-            {
-                $lookup: {
-                    from: 'users', // Reference to the users collection
-                    localField: 'client', // Match by the 'client' field in products
-                    foreignField: '_id', // Match it to the '_id' field in the users collection
-                    as: 'clientDetails' // Store the result in 'clientDetails'
-                }
-            },
-            {
-                $match: {
-                    'clientDetails.name': clientName // Only return products for clients with the specified name
-                }
-            }
-        ]);
+        // Use the 'find' method with a regular expression to search for products containing the name
+        const products = await productSchema.find({ name: { $regex: productName, $options: 'i' } });
 
-        // Return the filtered products as JSON
-        res.status(200).json(productsByClient);
+        // If no products are found, return a 404 response
+        if (products.length === 0) {
+            return res.status(404).json({ message: "No products found" });
+        }
+
+        // Return the found products as JSON
+        res.status(200).json(products);
     } catch (error) {
-        // Forward any errors to the global error handler
+        // Handle errors
         next(error);
     }
 });
+
 
 // Route to get a specific product by its ID
 router.route('/product/:id').get(authorize, async (req, res, next) => {
@@ -72,10 +63,15 @@ router.route('/create').post(authorize, async (req, res, next) => {
     try {
         // Create a new product document with data from the request body
         const newProduct = new productSchema({
-            client: req.body.client,
-            dateStart: req.body.dateStart,
-            dateEnd: req.body.dateEnd,
+            name: req.body.name,
+            price: req.body.price,
             description: req.body.description,
+            ingredients: req.body.ingredients,
+            image: req.body.image,
+            video: req.body.video,
+            category: req.body.category,
+            vegetarian: req.body.vegetarian,
+            dateAdded: req.body.dateAdded
         });
 
         // Save the new product to the database
@@ -108,17 +104,13 @@ router.route('/delete/:id').delete(authorize, async (req, res, next) => {
 router.route('/edit/:id').put(authorize, async (req, res, next) => {
     try {
         const { id } = req.params;
-        // Create a new product object with updated data from the request body
-        const productModify = new productSchema(req.body);
-        productModify._id = id; // Set the ID of the product to the existing ID
-
-        // Find the product by ID and update it with the new data
-        const productUpdated = await productSchema.findByIdAndUpdate(id, productModify, { new: true }); // Option to return the updated product
-        if (!productUpdated) {
+        // Update product details
+        const updatedProduct = await productSchema.findByIdAndUpdate(id, req.body, { new: true });
+        if (!updatedProduct) {
             return res.status(404).json({ message: "Product not found" });
         }
         // Return the updated product as JSON
-        return res.status(200).json(productUpdated);
+        return res.status(200).json(updatedProduct);
     } catch (err) {
         // Forward any errors to the global error handler
         return next(err);

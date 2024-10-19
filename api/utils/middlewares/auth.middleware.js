@@ -1,24 +1,34 @@
+// Import the jsonwebtoken library for handling JWTs
 const jwt = require("jsonwebtoken");
 
-// Middleware function to verify JWT
+// Middleware function to verify JWT and attach user info to the request object
 module.exports = (req, res, next) => {
     try {
-        // Retrieve the token from the Authorization header
-        const token = req.headers.authorization?.split(" ")[1]; // Optional chaining to avoid errors
+        // Extract the token from the Authorization header (format: "Bearer token")
+        const token = req.headers.authorization?.split(" ")[1];
 
-        // Check if the token exists
+        // If no token is provided, respond with a 401 Unauthorized status
         if (!token) {
             return res.status(401).json({ message: "No token provided" });
         }
 
-        // Verify the token using a secret key from environment variables
-        const secretKey = process.env.JWT_SECRET || "fallback-secret"; // Use environment variable for the secret
-        jwt.verify(token, secretKey);
+        // Retrieve the secret key from environment variables for token verification
+        const secretKey = process.env.JWT_SECRET;
 
-        // Call the next middleware function in the stack
+        // Verify the token using the secret key; this will decode the token if valid
+        const decoded = jwt.verify(token, secretKey);
+
+        // Attach user info (userId, username, role) to the request object for further use
+        req.user = {
+            userId: decoded.userId,
+            username: decoded.username,
+            role: decoded.role, // Include the user's role from the decoded token
+        };
+
+        // Call the next middleware in the stack
         next();
     } catch (error) {
-        // If there's an error, respond with 401 Unauthorized
+        // If token verification fails, respond with a 401 Unauthorized status
         res.status(401).json({ message: "Invalid token provided" });
     }
 };

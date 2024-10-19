@@ -18,10 +18,7 @@ if (!mongoDb) {
 const connect = async () => {
     try {
         // Attempt to connect to the MongoDB database using mongoose
-        const db = await mongoose.connect(mongoDb, {
-            useNewUrlParser: true, // Use the new URL parser for MongoDB connection
-            useUnifiedTopology: true, // Use the new topology engine
-        });
+        const db = await mongoose.connect(mongoDb);
 
         // Destructure the database connection properties
         const { name, host } = db.connection;
