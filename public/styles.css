@@ -1,14 +1,74 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
 
-.text-box {
-    margin: 100px 20px;
-    padding: 20px;
-    border-radius: 1rem;
-    background: darkslategrey;
-    color: white;
-    text-align: center;
-}
-.button {
-    width: 225px;
+body {
+    width: 100%;
+    height: 100vh; /* Changed to 100vh */
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif; /* Changed to Montserrat */
+    background-color: #121212; /* Dark background color */
+    display: flex; /* Center content vertically and horizontally */
+    justify-content: center;
+    align-items: center;
 }
 
+.box {
+    padding: 30px;
+    border-radius: 1rem;
+    background: #1e1e1e; /* Slightly lighter dark color */
+    color: white;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5); /* Shadow effect */
+    position: relative; /* Enable absolute positioning of pseudo-elements */
+    overflow: hidden; /* Prevent overflow for pseudo-elements */
+}
+
+.box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    z-index: 1; /* Place below text */
+    border-radius: 1rem;
+}
+
+h1, p {
+    position: relative; /* Ensure text is above the overlay */
+    z-index: 2; /* Raise text above the overlay */
+}
+
+h1 {
+    font-weight: 600; /* Medium font weight for heading */
+    margin-bottom: 15px; /* Space below heading */
+}
+
+p {
+    margin: 5px 0; /* Space between paragraphs */
+}
+
+.buttons-box {
+    margin-top: 20px; /* Space above buttons */
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #ff5722; /* Bright accent color for the button */
+    color: white;
+    text-decoration: none; /* Remove underline */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+    z-index: 2; /* Ensure button is above overlay */
+}
+
+.btn:hover {
+    background-color: #e64a19; /* Darker shade on hover */
+    transform: translateY(-2px); /* Lift effect on hover */
+}
+
+.btn:active {
+    transform: translateY(1px); /* Pressed effect */
+}
