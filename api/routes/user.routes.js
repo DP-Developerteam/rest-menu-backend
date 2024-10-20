@@ -78,14 +78,8 @@ router.post("/signin", async (req, res, next) => {
             return res.status(401).json({ message: "No user data." });
         }
 
-        if (!user) {
-            return res.status(401).json({ message: "No user data." });
-        }
-
-
         // Compare password with hashed password
         const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
-        console.log("Password validation:", isPasswordValid);
         if (!isPasswordValid) {
             return res.status(401).json({ message: "Password incorrect." });
         }
