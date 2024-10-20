@@ -49,8 +49,39 @@ app.use((err, req, res, next) => {
     });
 });
 
+// Flag to track whether the database connection is established
+let isConnected = false;
 
-// // Database Connection and Server Start *** For local purposes
+// Serverless function to connect to DB
+const init = async () => {
+    // Check if the database is not already connected
+    if (!isConnected) {
+        // console.log('Connecting to the database...');
+        // Call the connect function to establish a database connection
+        await connect();
+        // Set the flag to true to indicate the database is now connected
+        isConnected = true;
+        // console.log('Connected to the database');
+    }
+};
+
+// Export the function to handle incoming requests
+module.exports = async (req, res) => {
+    try {
+        // Ensure the database connection is established before handling the request
+        await init();
+        // Pass the request and response objects to the Express app for processing
+        app(req, res);
+    } catch (error) {
+        // Handle any errors that occur during request handling
+        // console.error('Error during request handling:', error);
+        // Send a 500 error response to the client
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+// *** For local purposes *** //
+// // Database Connection and Server Start
 // (async () => {
 //     try {
 //         await connect(); // Ensure DB connection happens first
@@ -68,24 +99,3 @@ app.use((err, req, res, next) => {
 // const init = async () => {
 //     await connect(); // Ensure DB connection happens first
 // };
-
-let isConnected = false;
-
-const init = async () => {
-    if (!isConnected) {
-        console.log('Connecting to the database...');
-        await connect();
-        isConnected = true;
-        console.log('Connected to the database');
-    }
-};
-
-module.exports = async (req, res) => {
-    try {
-        await init(); // Only connect if not connected
-        app(req, res); // Pass request and response to Express app
-    } catch (error) {
-        console.error('Error during request handling:', error);
-        res.status(500).json({ message: 'Internal Server Error' });
-    }
-};
