@@ -2,10 +2,10 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const dotenv = require('dotenv');
+// const dotenv = require('dotenv');
 
 // Load environment variables
-dotenv.config();
+// dotenv.config();
 
 // Import connection to DB
 const { connect } = require('./api/utils/database/connect.js');
@@ -33,6 +33,12 @@ app.use('/products', productRoutes);
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
+
+// Ruta para añadir estilos con CSS
+app.use(express.static(__dirname + '/public'))
+
+// Añadimos el favicon
+app.use('/favicon.ico', express.static('public/favicon.ico'));
 
 // // Database Connection and Server Start
 // (async () => {
