@@ -14,6 +14,9 @@ const { connect } = require('./api/utils/database/connect.js');
 const userRoutes = require('./api/routes/user.routes.js');
 const productRoutes = require('./api/routes/product.routes.js');
 
+//Ejecutamos la funcion que conecta con la db
+connect();
+
 // Initialize Express app
 const app = express();
 
@@ -74,18 +77,26 @@ app.use((err, req, res, next) => {
 // const init = async () => {
 //     await connect(); // Ensure DB connection happens first
 // };
-let isConnected = false; // Flag to ensure single DB connection
+//***   Then we try this
+// let isConnected = false;
 
-const init = async () => {
-    if (!isConnected) {
-        console.log('Connecting to the database...');
-        await connect();
-        console.log('Connected to the database');
-        isConnected = true;
-    }
-};
-// Set up your express app as a serverless function
-module.exports = async (req, res) => {
-    // await init(); // Connect to DB for each request
-    app(req, res); // Pass request and response to Express app
-};
+// const init = async () => {
+//     if (!isConnected) {
+//         console.log('Connecting to the database...');
+//         await connect();
+//         isConnected = true;
+//         console.log('Connected to the database');
+//     }
+// };
+
+// module.exports = async (req, res) => {
+//     try {
+//         if (!isConnected) {
+//             await init(); // Only connect if not connected
+//         }
+//         app(req, res); // Pass request and response to Express app
+//     } catch (error) {
+//         console.error('Error during request handling:', error);
+//         res.status(500).json({ message: 'Internal Server Error' });
+//     }
+// };
