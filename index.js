@@ -74,7 +74,6 @@ app.use((err, req, res, next) => {
 // const init = async () => {
 //     await connect(); // Ensure DB connection happens first
 // };
-//***   Then we try this
 let isConnected = false;
 
 const init = async () => {
