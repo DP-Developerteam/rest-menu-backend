@@ -55,8 +55,16 @@ app.use('/favicon.ico', express.static('public/favicon.ico'));
 // })();
 
 // Connect to the database and set up routes
+// const init = async () => {
+//     await connect(); // Ensure DB connection happens first
+// };
+let isConnected = false; // Flag to ensure single DB connection
+
 const init = async () => {
-    await connect(); // Ensure DB connection happens first
+    if (!isConnected) {
+        await connect();
+        isConnected = true; // Prevent reconnection
+    }
 };
 // Set up your express app as a serverless function
 module.exports = async (req, res) => {
