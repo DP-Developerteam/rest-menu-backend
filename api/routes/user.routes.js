@@ -179,7 +179,7 @@ router.put('/edit/:id', authorize, roleAuthorize, async (req, res, next) => {
 router.delete('/delete/:id', authorize, roleAuthorize, async (req, res, next) => {
     try {
         // Find and delete the user by ID
-        const deletedUser = await userSchema.findByIdAndRemove(req.params.id);
+        const deletedUser = await userSchema.findByIdAndDelete(req.params.id);
         if (!deletedUser) {
             return res.status(404).json({ message: "User not found." });
         }
