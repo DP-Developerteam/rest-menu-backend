@@ -123,7 +123,7 @@ router.get('/', authorize, roleAuthorize, async (req, res, next) => {
 });
 
 // Get  User by ID
-router.get('/user/:id', authorize, roleAuthorize, async (req, res, next) => {
+router.get('/user/:id', authorize, async (req, res, next) => {
     try {
         // Find user by ID
         const user = await userSchema.findById(req.params.id);
