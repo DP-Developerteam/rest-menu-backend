@@ -78,12 +78,14 @@ let isConnected = false; // Flag to ensure single DB connection
 
 const init = async () => {
     if (!isConnected) {
+        console.log('Connecting to the database...');
         await connect();
-        isConnected = true; // Prevent reconnection
+        console.log('Connected to the database');
+        isConnected = true;
     }
 };
 // Set up your express app as a serverless function
 module.exports = async (req, res) => {
-    await init(); // Connect to DB for each request
+    // await init(); // Connect to DB for each request
     app(req, res); // Pass request and response to Express app
 };
