@@ -2,12 +2,12 @@
 
 body {
     width: 100%;
-    height: 100vh; /* Changed to 100vh */
+    height: 100vh;
     margin: 0;
     padding: 0;
-    font-family: 'Montserrat', sans-serif; /* Changed to Montserrat */
-    background-color: #121212; /* Dark background color */
-    display: flex; /* Center content vertically and horizontally */
+    font-family: 'Montserrat', sans-serif;
+    background-color: #121212;
+    display: flex;
     justify-content: center;
     align-items: center;
 }
@@ -15,12 +15,12 @@ body {
 .box {
     padding: 30px;
     border-radius: 1rem;
-    background: #1e1e1e; /* Slightly lighter dark color */
+    background: #1e1e1e;
     color: white;
     text-align: center;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5); /* Shadow effect */
-    position: relative; /* Enable absolute positioning of pseudo-elements */
-    overflow: hidden; /* Prevent overflow for pseudo-elements */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
 }
 
 .box::before {
@@ -30,45 +30,46 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
-    z-index: 1; /* Place below text */
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
     border-radius: 1rem;
 }
 
 h1, p {
-    position: relative; /* Ensure text is above the overlay */
-    z-index: 2; /* Raise text above the overlay */
+    position: relative;
+    z-index: 2;
 }
 
 h1 {
-    font-weight: 600; /* Medium font weight for heading */
-    margin-bottom: 15px; /* Space below heading */
+    font-weight: 600;
+    margin-bottom: 15px;
 }
 
 p {
-    margin: 5px 0; /* Space between paragraphs */
+    margin: 20px 0;
 }
 
 .buttons-box {
-    margin-top: 20px; /* Space above buttons */
+    margin-top: 20px;
 }
 
 .btn {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    background-color: #ff5722; /* Bright accent color for the button */
+    background-color: #55b5e6;
     color: white;
-    text-decoration: none; /* Remove underline */
-    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
-    z-index: 2; /* Ensure button is above overlay */
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    z-index: 2;
 }
 
 .btn:hover {
-    background-color: #e64a19; /* Darker shade on hover */
-    transform: translateY(-2px); /* Lift effect on hover */
+    background-color: #e64a19;
+    transform: translateY(-2px);
+    cursor: pointer;
 }
 
 .btn:active {
-    transform: translateY(1px); /* Pressed effect */
+    transform: translateY(1px);
 }
