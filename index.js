@@ -2,9 +2,9 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-// const dotenv = require('dotenv');
+// const dotenv = require('dotenv'); *** For local purposes
 
-// Load environment variables
+// Load environment variables *** For local purposes
 // dotenv.config();
 
 // Import connection to DB
@@ -34,11 +34,11 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Ruta para añadir estilos con CSS
-app.use(express.static(__dirname + '/public'))
+// // Ruta para añadir estilos con CSS
+// app.use(express.static(__dirname + '/public'))
 
-// Añadimos el favicon
-app.use('/favicon.ico', express.static('public/favicon.ico'));
+// // Añadimos el favicon
+// app.use('/favicon.ico', express.static('public/favicon.ico'));
 
 // 404 Handler for undefined routes
 app.use((req, res, next) => {
@@ -56,7 +56,7 @@ app.use((err, req, res, next) => {
 });
 
 
-// // Database Connection and Server Start
+// // Database Connection and Server Start *** For local purposes
 // (async () => {
 //     try {
 //         await connect(); // Ensure DB connection happens first
@@ -74,6 +74,7 @@ app.use((err, req, res, next) => {
 // const init = async () => {
 //     await connect(); // Ensure DB connection happens first
 // };
+
 let isConnected = false;
 
 const init = async () => {
