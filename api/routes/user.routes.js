@@ -92,13 +92,15 @@ router.post("/signin", async (req, res, next) => {
                 role: user.role // Include the user's role here
             },
             process.env.JWT_SECRET,
-            { expiresIn: "8h" }
+            // { expiresIn: "8h" }
+            { expiresIn: "5m" }
         );
 
         // Return token and user ID
         res.status(200).json({
             token: jwtToken,
-            expiresIn: 28800,
+            // expiresIn: 28800,
+            expiresIn: 300,
             _id: user._id
         });
 
