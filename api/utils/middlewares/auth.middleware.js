@@ -18,6 +18,12 @@ module.exports = (req, res, next) => {
         // Verify the token using the secret key; this will decode the token if valid
         const decoded = jwt.verify(token, secretKey);
 
+        // Check if the token has expired by comparing the expiration time to the current time
+        const currentTime = Math.floor(Date.now() / 1000); // current time in seconds
+        if (decoded.exp && decoded.exp < currentTime) {
+            return res.status(401).json({ message: "Token has expired" });
+        }
+
         // Attach user info (userId, username, role) to the request object for further use
         req.user = {
             userId: decoded.userId,
