@@ -89,7 +89,7 @@ router.post("/signin", async (req, res, next) => {
             {
                 username: user.username,
                 userId: user._id,
-                role: user.role // Include the user's role here
+                role: user.role
             },
             process.env.JWT_SECRET,
             // { expiresIn: "8h" }
@@ -99,9 +99,10 @@ router.post("/signin", async (req, res, next) => {
         // Return token and user ID
         res.status(200).json({
             token: jwtToken,
-            // expiresIn: 28800,
-            expiresIn: 300,
-            _id: user._id
+            role: user.role,
+            _id: user._id,
+            // expiresIn: 28800
+            expiresIn: 300
         });
 
     } catch (err) {
