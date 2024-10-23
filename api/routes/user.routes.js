@@ -159,14 +159,36 @@ router.get('/user/name/:name', authorize, roleAuthorize, async (req, res, next) 
     }
 });
 
+// // Update User by ID
+// router.put('/edit/:id', authorize, roleAuthorize, async (req, res, next) => {
+//     try {
+//         // Update user details
+//         const updatedUser = await userSchema.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true });
+//         if (!updatedUser) {
+//             return res.status(404).json({ message: "User not found." });
+//         }
+//         // Return the updated user as JSON
+//         res.status(200).json(updatedUser);
+//     } catch (error) {
+//         // Forward any errors to the global error handler
+//         next(error);
+//     }
+// });
 // Update User by ID
 router.put('/edit/:id', authorize, roleAuthorize, async (req, res, next) => {
     try {
+        // Check if password is provided for hashing
+        if (req.body.password) {
+            const hash = await bcrypt.hash(req.body.password, 10);
+            req.body.password = hash; // Set the hashed password back to the request body
+        }
+
         // Update user details
         const updatedUser = await userSchema.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true });
         if (!updatedUser) {
             return res.status(404).json({ message: "User not found." });
         }
+
         // Return the updated user as JSON
         res.status(200).json(updatedUser);
     } catch (error) {
